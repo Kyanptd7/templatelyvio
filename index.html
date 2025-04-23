@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyvio Boutique</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="carousel.js"></script>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar">
+      <ul>
+        <li><a href="#">Accueil</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Boutique</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="header-image">
+      <img src="header.jpg" alt="Boutique" />
+      <h1 class="overlay-title">BOUTIQUE</h1>
+    </div>
+  </header>
+
+  <!-- CATEGORIES -->
+  <aside class="categories">
+    <h3>Catégories</h3>
+    <ul>
+      <li><input type="checkbox"> Gianneschi</li>
+      <li><input type="checkbox"> Prise et fiche de quai</li>
+      <li><input type="checkbox"> Éclairage</li>
+    </ul>
+  </aside>
+
+  <!-- CONTENU PRINCIPAL -->
+  <main>
+    <!-- CARROUSEL GIANNESCHI -->
+    <section class="section">
+      <h2>Gianneschi</h2>
+      <div class="carousel" id="carousel-gianneschi">
+        <div class="carousel-track">
+          <div class="carousel-item">Pompes</div>
+          <div class="carousel-item">Autoclave</div>
+          <div class="carousel-item">Extracteur d'air</div>
+        </div>
+        <button class="carousel-btn prev">&#10094;</button>
+        <button class="carousel-btn next">&#10095;</button>
+      </div>
+    </section>
+
+    <!-- PRISE ET FICHE DE QUAI -->
+    <section class="section">
+      <h2>Prise et fiche de quai</h2>
+      <div class="grid">
+        <div class="grid-item">MARECHAL</div>
+        <div class="grid-item">MENNEKES</div>
+        <div class="grid-item">MARINCO</div>
+      </div>
+    </section>
+
+    <!-- ÉCLAIRAGE -->
+    <section class="section">
+      <h2>Éclairage</h2>
+      <div class="grid">
+        <div class="grid-item">LED</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <h2>Inscription à la newsletter</h2>
+    <form>
+      <input type="email" placeholder="Entrez votre email" />
+      <button type="submit">S’inscrire</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 LYVIO. Tous droits réservés.</p>
+  </footer>
+</body>
+</html>
