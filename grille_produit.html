@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Grid</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 50px;
+      max-width: 880px;
+      width: 100%;
+    }
+
+    .product-card {
+      background-color: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding-bottom: 10px;
+    }
+
+    .favorite-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.05);
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .favorite-btn:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+      height: 330px;
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .product-image img:hover {
+      transform: scale(1.05);
+    }
+
+    .product-details {
+      padding: 15px;
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .product-details h3 {
+      font-size: 1rem;
+      font-weight: normal;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .product-details p {
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    .product-details .price {
+      margin-top: 10px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <div class="product-grid" id="product-grid"></div>
+
+  <script>
+    const products = [
+      {
+        id: '1',
+        name: 'Electropompe ACB61 G (12V) Gianneschi',
+        reference: 'NE45000',
+        price: 120.23,
+        image: 'https://lyvioshop.com/5-large_default/pompe-monobloc-cp26-a1-24v-gianneschi.jpg',
+        isFavorite: false
+      },
+      {
+        id: '2',
+        name: 'Electropompe ACB61 G (12V) Gianneschi',
+        reference: 'NE45000',
+        price: 120.23,
+        image: 'https://lyvioshop.com/5-large_default/pompe-monobloc-cp26-a1-24v-gianneschi.jpg',
+        isFavorite: false
+      },
+      {
+        id: '3',
+        name: 'Electropompe ACB61 G (12V) Gianneschi',
+        reference: 'NE45000',
+        price: 120.23,
+        image: 'https://lyvioshop.com/5-large_default/pompe-monobloc-cp26-a1-24v-gianneschi.jpg',
+        isFavorite: false
+      }
+    ];
+
+    const renderProductGrid = () => {
+      const productGrid = document.getElementById('product-grid');
+      productGrid.innerHTML = '';
+
+      products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        const favoriteButton = document.createElement('button');
+        favoriteButton.classList.add('favorite-btn');
+        favoriteButton.innerHTML = product.isFavorite 
+          ? '<span style="color: red;">❤️</span>' 
+          : '<span>🤍</span>';
+        favoriteButton.onclick = () => toggleFavorite(product.id);
+
+        const productImage = document.createElement('div');
+        productImage.classList.add('product-image');
+        const img = document.createElement('img');
+        img.src = product.image;
+        img.alt = product.name;
+        productImage.appendChild(img);
+
+        const productDetails = document.createElement('div');
+        productDetails.classList.add('product-details');
+
+        const productName = document.createElement('h3');
+        productName.textContent = product.name;
+
+        const productReference = document.createElement('p');
+        productReference.innerHTML = `<span style="color:#999; font-size: 0.9rem;"><strong>Ref :</strong> ${product.reference}</span>`;
+
+        const productPrice = document.createElement('p');
+        productPrice.classList.add('price');
+        productPrice.textContent = `$${product.price.toFixed(2)}`;
+
+        productDetails.appendChild(productName);
+        productDetails.appendChild(productReference);
+        productDetails.appendChild(productPrice);
+
+        productCard.appendChild(favoriteButton);
+        productCard.appendChild(productImage);
+        productCard.appendChild(productDetails);
+
+        productGrid.appendChild(productCard);
+      });
+    };
+
+    const toggleFavorite = (id) => {
+      const product = products.find(p => p.id === id);
+      if (product) {
+        product.isFavorite = !product.isFavorite;
+        renderProductGrid();
+      }
+    };
+
+    renderProductGrid();
+  </script>
+</body>
+</html>

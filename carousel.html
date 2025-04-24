@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrousel plein écran</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      overflow-x: hidden;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding: 60px 0;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: max-content;
+    }
+
+    .carousel-slide {
+      flex: 0 0 33.3333vw;
+      max-width: 33.3333vw;
+      padding: 10px;
+    }
+
+    .carousel-card {
+      position: relative;
+      height: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .carousel-card:hover {
+      transform: scale(1.03);
+    }
+
+    .carousel-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #000000;
+      text-align: center;
+      padding: 0 10px;
+    }
+
+    .arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #FF6B00;
+      color: white;
+      font-size: 32px;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .arrow-left {
+      left: 20px;
+    }
+
+    .arrow-right {
+      right: 20px;
+    }
+
+    .arrow-btn:hover {
+      background-color: #e55a00;
+    }
+
+    .dots {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .dots button {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: none;
+      margin: 0 6px;
+      background-color: #ccc;
+      cursor: pointer;
+    }
+
+    .dots button.active {
+      background-color: #FF6B00;
+    }
+  </style>
+</head>
+<body>
+
+<div class="carousel-container">
+  <button class="arrow-btn arrow-left" onclick="prevSlide()">&#10094;</button>
+
+  <div class="carousel-track" id="carousel-track">
+    <!-- Slides générés en JS -->
+  </div>
+
+  <button class="arrow-btn arrow-right" onclick="nextSlide()">&#10095;</button>
+</div>
+
+<div class="dots" id="carousel-dots"></div>
+
+<script>
+  const categories = [
+    { title: 'POMPES', image: 'https://images.pexels.com/photos/2582651/pexels-photo-2582651.jpeg' },
+    { title: 'AUTOCLAVE', image: 'https://images.pexels.com/photos/1007836/pexels-photo-1007836.jpeg' },
+    { title: "EXTRACTEUR D'AIR", image: 'https://images.pexels.com/photos/2551794/pexels-photo-2551794.jpeg' },
+    { title: 'MAINTENANCE', image: 'https://images.pexels.com/photos/3862632/pexels-photo-3862632.jpeg' },
+    { title: 'ÉQUIPEMENT', image: 'https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg' },
+    { title: 'CONTRÔLE', image: 'https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg' }
+  ];
+
+  let currentSlide = 0;
+  const track = document.getElementById('carousel-track');
+  const dotsContainer = document.getElementById('carousel-dots');
+
+  function renderSlides() {
+    track.innerHTML = '';
+    categories.forEach(cat => {
+      const slide = document.createElement('div');
+      slide.className = 'carousel-slide';
+      slide.innerHTML = `
+        <div class="carousel-card">
+          <img src="${cat.image}" alt="${cat.title}" />
+          <div class="overlay">${cat.title}</div>
+        </div>
+      `;
+      track.appendChild(slide);
+    });
+
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i < categories.length - 2; i++) {
+      const dot = document.createElement('button');
+      if (i === currentSlide) dot.classList.add('active');
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    updateCarousel();
+  }
+
+  function updateCarousel() {
+    const offset = -(currentSlide * (100 / 3));
+    track.style.transform = `translateX(${offset}vw)`;
+    [...dotsContainer.children].forEach((dot, i) =>
+      dot.classList.toggle('active', i === currentSlide)
+    );
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % (categories.length - 2);
+    updateCarousel();
+  }
+
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + (categories.length - 2)) % (categories.length - 2);
+    updateCarousel();
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    updateCarousel();
+  }
+
+  renderSlides();
+</script>
+
+</body>
+</html>
