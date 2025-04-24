@@ -31,8 +31,8 @@
 
     .product-card {
       background-color: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
+      border: 1.5px solid #d0d0d0;
+      border-radius: 0px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -51,7 +51,11 @@
       padding: 10px;
       border-radius: 50%;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .favorite-btn:active {
+      transform: scale(1.2);
     }
 
     .favorite-btn:hover {
@@ -75,25 +79,27 @@
     }
 
     .product-details {
-      padding: 15px;
+      padding: 15px 10px 10px 10px;
       flex-grow: 1;
-      text-align: center;
+      text-align: left;
     }
 
     .product-details h3 {
       font-size: 1rem;
       font-weight: normal;
       color: #1a1a1a;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .product-details p {
       color: #777;
       font-size: 0.9rem;
+      padding-bottom: 0;
     }
 
     .product-details .price {
       margin-top: 10px;
+      margin-bottom: 40px;
       font-size: 1.3rem;
       font-weight: bold;
       color: #1a1a1a;
@@ -131,6 +137,7 @@
       }
     ];
 
+    // Fonction de rendu
     const renderProductGrid = () => {
       const productGrid = document.getElementById('product-grid');
       productGrid.innerHTML = '';
@@ -141,10 +148,19 @@
 
         const favoriteButton = document.createElement('button');
         favoriteButton.classList.add('favorite-btn');
-        favoriteButton.innerHTML = product.isFavorite 
-          ? '<span style="color: red;">❤️</span>' 
-          : '<span>🤍</span>';
-        favoriteButton.onclick = () => toggleFavorite(product.id);
+
+        if (product.isFavorite) {
+          favoriteButton.style.backgroundColor = 'rgba(255, 0, 0, 0.2)';
+          favoriteButton.innerHTML = '<span style="color: red;">❤️</span>';
+        } else {
+          favoriteButton.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+          favoriteButton.innerHTML = '<span>🤍</span>';
+        }
+
+        favoriteButton.addEventListener('click', () => {
+          product.isFavorite = !product.isFavorite;
+          renderProductGrid();
+        });
 
         const productImage = document.createElement('div');
         productImage.classList.add('product-image');
@@ -176,14 +192,6 @@
 
         productGrid.appendChild(productCard);
       });
-    };
-
-    const toggleFavorite = (id) => {
-      const product = products.find(p => p.id === id);
-      if (product) {
-        product.isFavorite = !product.isFavorite;
-        renderProductGrid();
-      }
     };
 
     renderProductGrid();
