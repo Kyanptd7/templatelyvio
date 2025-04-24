@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carrousel Catégories</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+      background: #f9f9f9;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 1050px; /* réduit de 50px */
+    }
+
+    .carousel-wrapper {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .carousel-slides {
+      display: flex;
+      gap: 16px; /* réduit */
+      transition: transform 0.5s ease;
+    }
+
+    .slide {
+      flex: 0 0 calc((100% - 32px) / 3); /* réduit la largeur totale */
+      padding: 12px; /* réduit */
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #fff;
+      box-sizing: border-box;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px; /* réduit */
+      font-weight: normal;
+      height: 50px; /* réduit */
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .slide:hover {
+      background-color: #f97316;
+      color: white;
+      transform: translateY(-4px);
+    }
+
+    .arrow {
+      position: absolute;
+      top: calc(50% - 35px); /* ajusté pour la nouvelle taille */
+      background: #ea8024;
+      color: white;
+      border: none;
+      padding: 10px; /* réduit */
+      font-size: 18px; /* réduit */
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .arrow.left {
+      left: -45px;
+      display: none;
+    }
+
+    .arrow.right {
+      right: -45px;
+    }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 16px;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: #ea8024;
+    }
+
+    .slide a {
+      text-decoration: none;
+      color: inherit;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide:hover a {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="carousel-container">
+    <div class="carousel-wrapper">
+      <div class="carousel-slides" id="carouselSlides">
+        <div class="slide"><a href="page1.html">ACB THREADED</a></div>
+        <div class="slide"><a href="page2.html">ACB FLANGED</a></div>
+        <div class="slide"><a href="page3.html">CP</a></div>
+        <div class="slide"><a href="page4.html">POMPE MANUELLES GIANNESCHI</a></div>
+        <div class="slide"><a href="page5.html">IN-FQ / PQ</a></div>
+        <div class="slide"><a href="page6.html">MV-MVI</a></div>
+        <div class="slide"><a href="page6.html">MV-MVI</a></div>
+        <div class="slide"><a href="page6.html">MV-MVI</a></div>
+      </div>
+    </div>
+
+    <button class="arrow left" id="prevBtn">&#10094;</button>
+    <button class="arrow right" id="nextBtn">&#10095;</button>
+
+    <div class="dots" id="dotsContainer"></div>
+  </div>
+
+  <script>
+    const slidesContainer = document.getElementById('carouselSlides');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('dotsContainer');
+
+    const slides = document.querySelectorAll('.slide');
+    const slidesPerView = 3;
+    const totalGroups = Math.ceil(slides.length / slidesPerView);
+    let currentIndex = 0;
+
+    function updateCarousel() {
+      const slideWidth = slides[0].offsetWidth + 16; // ajusté avec nouveau gap
+      slidesContainer.style.transform = `translateX(-${currentIndex * slideWidth * slidesPerView}px)`;
+      updateDots();
+      prevBtn.style.display = currentIndex === 0 ? 'none' : 'block';
+      nextBtn.style.display = currentIndex >= totalGroups - 1 ? 'none' : 'block';
+    }
+
+    function updateDots() {
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < totalGroups; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (i === currentIndex) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+          currentIndex = i;
+          updateCarousel();
+        });
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < totalGroups - 1) {
+        currentIndex++;
+        updateCarousel();
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCarousel();
+      }
+    });
+
+    window.addEventListener('load', updateCarousel);
+    window.addEventListener('resize', updateCarousel);
+  </script>
+</body>
+</html>
