@@ -1,0 +1,17 @@
+category-header.tpl : /themes/at_movic_elementor/templates/catalog/_partials/category-header.tpl
+
+layout-left-column.tpl : /themes/at_movic_elementor/templates/layouts/layout-left-column.tpl
+
+products.tpl : /themes/at_movic_elementor/templates/catalog/_partials/products.tpl
+
+subcategories.tpl : /themes/at_movic_elementor/templates/catalog/_partials/subcategories.tpl
+
+description pageproduit : /themes/at_movic_elementor/templates/sub/product_info/tab.tpl
+
+contactform : /themes/at_movic_elementor/modules/contactform/views/templates/widget
+
+
+
+
+login : customer/_partials/login-form.tpl
+resgister : customer/_partials/customer-form.tpl

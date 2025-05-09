@@ -1,0 +1,225 @@
+{extends file='layouts/layout-both-columns.tpl'}
+
+{block name='right_column'}{/block}
+
+{block name='content_wrapper'}
+  <div id="content-wrapper" class="js-content-wrapper left-column col-xs-12 col-sm-12 col-md-8 col-lg-9">
+    {hook h="displayContentWrapperTop"}
+
+    {* Sidebar personnalisée en haut *}
+    <style>
+      .categories-panel {
+        background-color: #f5f5f5;
+        border-radius: 0.5rem;
+        padding: 2rem;
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 2rem;
+      }
+
+      .categories-panel h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 2rem;
+      }
+
+      .category-item {
+        margin-bottom: 1rem;
+      }
+
+      .category-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .category-header span {
+        font-size: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .category-header:hover span,
+      .category-header:hover button {
+        color: #f4821f;
+      }
+
+      .category-header .dot {
+        width: 1.25rem;
+        height: 1.25rem;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        margin-right: 0.75rem;
+      }
+
+      .category-header button {
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: #333;
+      }
+
+      .subcategory-list {
+        margin-left: 2rem;
+        margin-top: 0.5rem;
+        display: none;
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      .subcategory-list.visible {
+        display: block;
+      }
+
+      .subcategory-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+      }
+
+      .subcategory-item:hover span {
+        color: #f4821f;
+      }
+
+      .subcategory-item .dot {
+        width: 1rem;
+        height: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        margin-right: 0.75rem;
+      }
+
+      .subcategory-item span {
+        font-size: 0.875rem;
+        color: #4b5563;
+        transition: color 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+
+    <div class="categories-panel">
+      <h2>CATÉGORIES</h2>
+      <div id="categories-container"></div>
+    </div>
+
+    <div>
+      {block name='content'}
+        {* Ton contenu principal ici *}
+        <p>Hello world! This is HTML5 Boilerplate.</p>
+      {/block}
+    </div>
+
+    {hook h="displayContentWrapperBottom"}
+  </div>
+
+  {* Suppression du bloc doublon de facettes *}
+{/block}
+
+{block name='js'}
+  {$smarty.block.parent}
+  <script>
+    const categories = [
+      {
+        id: 1,
+        name: 'Gianneschi',
+        isExpanded: false,
+        subcategories: [
+          'Pompes Gianneschi',
+          'Autoclaves Gianneschi',
+          "Extracteur d'air Gianneschi",
+          'Chauffe-eau Gianneschi',
+          'Compresseur Gianneschi',
+          "Réservoirs d'air Gianneschi",
+          "Sécheurs d'air Gianneschi",
+          'Kit de service pompe Gianneschi',
+          'Pièces pompes aux détails',
+          'Accessoires et pièces aux détails pour chauffes-eaux Gianneschi'
+        ],
+      },
+      {
+        id: 2,
+        name: 'Prise et Fiche de Quai',
+        isExpanded: false,
+        subcategories: ['Marechal', 'Mennekes', 'Marinco'],
+      },
+      {
+        id: 3,
+        name: 'Éclairage',
+        isExpanded: false,
+        subcategories: ['LED', 'Projecteurs', 'Plafonniers'],
+      },
+    ];
+
+    function renderCategories() {
+      const container = document.getElementById('categories-container');
+      container.innerHTML = '';
+
+      categories.forEach(category => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'category-item';
+
+        const header = document.createElement('div');
+        header.className = 'category-header';
+        header.onclick = () => toggleCategory(category.id);
+
+        const left = document.createElement('div');
+        left.style.display = 'flex';
+        left.style.alignItems = 'center';
+
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        left.appendChild(dot);
+
+        const title = document.createElement('span');
+        title.textContent = category.name;
+        title.style.fontWeight = category.isExpanded ? '600' : '400';
+        title.style.color = category.isExpanded ? '#f4821f' : '#1f2937';
+        left.appendChild(title);
+
+        const button = document.createElement('button');
+        button.innerHTML = category.isExpanded ? '−' : '+';
+        button.setAttribute('aria-label', category.isExpanded ? 'Réduire la catégorie' : 'Développer la catégorie');
+        button.style.color = category.isExpanded ? '#f4821f' : '#333';
+
+        header.appendChild(left);
+        header.appendChild(button);
+        categoryDiv.appendChild(header);
+
+        const subList = document.createElement('div');
+        subList.className = `subcategory-list ${category.isExpanded ? 'visible' : ''}`;
+
+        category.subcategories.forEach(sub => {
+          const subItem = document.createElement('div');
+          subItem.className = 'subcategory-item';
+
+          const subDot = document.createElement('div');
+          subDot.className = 'dot';
+          subItem.appendChild(subDot);
+
+          const subName = document.createElement('span');
+          subName.textContent = sub;
+          subItem.appendChild(subName);
+
+          subList.appendChild(subItem);
+        });
+
+        categoryDiv.appendChild(subList);
+        container.appendChild(categoryDiv);
+      });
+    }
+
+    function toggleCategory(id) {
+      const category = categories.find(cat => cat.id === id);
+      if (category) category.isExpanded = !category.isExpanded;
+      renderCategories();
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCategories);
+  </script>
+{/block}
