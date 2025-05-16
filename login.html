@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login Form</title>
+<style>
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .app-container {
+    background: #fff;
+    max-width: 600px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgb(0 0 0 / 0.1);
+    overflow: hidden;
+  }
+
+  .form-wrapper {
+    padding: 40px 30px;
+  }
+
+  h2 {
+    font-weight: 500;
+    font-size: 28px;
+    color: #0d1b3d;
+    margin: 0 0 32px 0;
+    text-align: center;
+  }
+
+    .gradient-line {
+      width: 480px;
+      height: 15px;
+      margin: -42px auto 100px auto;
+      background: linear-gradient(to right, #f47b20, white);
+      border-radius: 0px;
+    }
+
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    margin-bottom: 24px;
+    box-sizing: border-box;
+  }
+
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #f47b20;
+    outline: none;
+  }
+
+  #loginBtn {
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 14px;
+    border-radius: 0;
+    border: 2px solid #f47b20;
+    background: transparent;
+    color: #f47b20;
+    width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-bottom: 20px;
+  }
+
+  #loginBtn:hover {
+    background-color: #f47b20;
+    color: white;
+  }
+
+  #createAccountBtn {
+    border: 2px solid rgb(14 27 77);
+    color: rgb(14 27 77);
+    background: transparent;
+    width: 100%;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 14px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+
+  #createAccountBtn:hover {
+    background-color: rgb(14 27 77);
+    color: white;
+  }
+
+  .forgot-password {
+    display: block;
+    text-align: center;
+    color: #0d1b3d;
+    font-weight: 300;
+    font-size: 14px;
+    background: none;
+    border: none;
+    margin-bottom: 32px;
+    cursor: pointer;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+  }
+
+  .forgot-password:hover {
+    color: #0d1b3d;
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="form-wrapper">
+    <h2>CONNECTEZ-VOUS À VOTRE COMPTE</h2>
+    <div class="gradient-line"></div>
+
+    <form id="loginForm" novalidate>
+     
+      <input type="email" id="email" name="email" placeholder="Email *" required />
+
+      
+      <input type="password" id="password" name="password" placeholder="Mot de passe *" required />
+
+      <button type="button" class="forgot-password" id="forgotPasswordBtn">Mot de passe oublié ?</button>
+
+      <button type="submit" id="loginBtn">Se connecter</button>
+    </form>
+
+    <button type="button" id="createAccountBtn"> PAS DE COMPTE ? CRÉEZ-EN UN !</button>
+  </div>
+</div>
+
+<script>
+  const loginForm = document.getElementById('loginForm');
+  const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+  const createAccountBtn = document.getElementById('createAccountBtn');
+
+  function handleLogin(email, password) {
+    console.log('Login attempt with:', email, password);
+    alert(`Login attempt with: ${email} / ${password}`);
+  }
+
+  function handleForgotPassword() {
+    console.log('Forgot password clicked');
+    alert('Mot de passe oublié cliqué');
+  }
+
+  function handleCreateAccount() {
+    console.log('Create account clicked');
+    alert('Créer un compte cliqué');
+  }
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = loginForm.email.value.trim();
+    const password = loginForm.password.value;
+
+    if (!email || !password) {
+      alert('Veuillez remplir email et mot de passe');
+      return;
+    }
+
+    handleLogin(email, password);
+  });
+
+  forgotPasswordBtn.addEventListener('click', () => {
+    handleForgotPassword();
+  });
+
+  createAccountBtn.addEventListener('click', () => {
+    handleCreateAccount();
+  });
+</script>
+
+</body>
+</html>

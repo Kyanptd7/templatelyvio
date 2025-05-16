@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Informations du compte</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      margin: 2rem;
+      color: #374151;
+    }
+
+    h2 {
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      color: #f68620;
+    }
+
+    form {
+      max-width: 600px;
+      background: white;
+      padding: 1.5rem 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    form.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .form-block {
+      margin-bottom: 1.5rem;
+      padding: 0; /* No padding here so grey background only inside fields */
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.5rem;
+      background-color: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+      box-sizing: border-box; /* ensures padding/border included in width */
+      margin: 0; /* remove default margin */
+      display: block; /* prevent inline spacing issues */
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgb(37 99 235 / 0.3);
+    }
+
+    .error-message {
+      color: #dc2626;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    button {
+      padding: 0.5rem 1.25rem;
+      font-size: 1rem;
+      border-radius: 0.25rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background-color: #2563eb;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #2563eb;
+      border: 2px solid #2563eb;
+    }
+
+    .btn-outline:hover {
+      background-color: #2563eb;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="userInfoForm" novalidate>
+    <h2>Informations du compte</h2>
+
+    <div class="form-block grid grid-2">
+      <div>
+        <label for="firstName">Prénom</label>
+        <input type="text" id="firstName" name="firstName" />
+        <div class="error-message" id="error-firstName"></div>
+      </div>
+      <div>
+        <label for="lastName">Nom</label>
+        <input type="text" id="lastName" name="lastName" />
+        <div class="error-message" id="error-lastName"></div>
+      </div>
+    </div>
+
+    <div class="form-block grid grid-2">
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" />
+        <div class="error-message" id="error-email"></div>
+      </div>
+      <div>
+        <label for="phone">Téléphone</label>
+        <input type="tel" id="phone" name="phone" />
+        <div class="error-message" id="error-phone"></div>
+      </div>
+    </div>
+
+    <div class="form-block" style="max-width: 100%; width: 100%; max-width: 100%; margin-bottom: 1.5rem;">
+      <label for="boatName">Nom du bateau</label>
+      <input type="text" id="boatName" name="boatName" style="width: 100%; max-width: 100%;" />
+      <div class="error-message" id="error-boatName"></div>
+    </div>
+
+    <div class="form-block">
+      <label for="billingAddress">Adresse de facturation</label>
+      <textarea id="billingAddress" name="billingAddress"></textarea>
+      <div class="error-message" id="error-billingAddress"></div>
+    </div>
+
+    <div class="buttons">
+      <button type="button" id="cancelBtn" class="btn-outline">Annuler</button>
+      <button type="submit" class="btn-primary">Enregistrer</button>
+    </div>
+  </form>
+
+  <script>
+    const user = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      boatName: "",
+      billingAddress: ""
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('userInfoForm');
+      form.firstName.value = user.firstName;
+      form.lastName.value = user.lastName;
+      form.email.value = user.email;
+      form.phone.value = user.phone;
+      form.boatName.value = user.boatName;
+      form.billingAddress.value = user.billingAddress;
+
+      setTimeout(() => {
+        form.classList.add('visible');
+      }, 50);
+    });
+
+    const form = document.getElementById('userInfoForm');
+
+    const errorElements = {
+      firstName: document.getElementById('error-firstName'),
+      lastName: document.getElementById('error-lastName'),
+      email: document.getElementById('error-email'),
+      phone: document.getElementById('error-phone'),
+      boatName: document.getElementById('error-boatName'),
+      billingAddress: document.getElementById('error-billingAddress'),
+    };
+
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+    function validateField(name, value) {
+      switch(name) {
+        case 'firstName':
+        case 'lastName':
+        case 'phone':
+        case 'boatName':
+        case 'billingAddress':
+          if (!value.trim()) return "Ce champ est obligatoire";
+          break;
+        case 'email':
+          if (!value.trim()) return "Ce champ est obligatoire";
+          if (!emailPattern.test(value)) return "Adresse email invalide";
+          break;
+      }
+      return "";
+    }
+
+    function clearErrors() {
+      Object.values(errorElements).forEach(el => el.textContent = "");
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      clearErrors();
+
+      const formData = new FormData(form);
+      let hasErrors = false;
+      const data = {};
+
+      for (const [name, value] of formData.entries()) {
+        const errorMsg = validateField(name, value);
+        if (errorMsg) {
+          errorElements[name].textContent = errorMsg;
+          hasErrors = true;
+        } else {
+          data[name] = value.trim();
+        }
+      }
+
+      if (!hasErrors) {
+        console.log('Form data saved:', data);
+        alert('Vos modifications ont été enregistrées !');
+      }
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+      form.firstName.value = user.firstName;
+      form.lastName.value = user.lastName;
+      form.email.value = user.email;
+      form.phone.value = user.phone;
+      form.boatName.value = user.boatName;
+      form.billingAddress.value = user.billingAddress;
+      clearErrors();
+      alert('Modifications annulées');
+    });
+  </script>
+
+</body>
+</html>

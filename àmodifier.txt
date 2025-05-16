@@ -1,0 +1,13 @@
+blog : chemin :
+
+articles : chemin :
+
+page connexion : chemin :
+
+liste d'envie : chemin :
+
+toute la partie compte
+
+partie mention legal et cgdv : 
+
+faire page FAQ
